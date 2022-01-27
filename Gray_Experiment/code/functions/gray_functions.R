@@ -357,6 +357,9 @@ cv_boot_gray_gandf <- function(d_form, cv_N = 10, bs_N = 100,
     
     # Define the progress bar index
     pb_i <- 0
+
+    pb <- txtProgressBar(min = 0, max = 10*cv_N,
+                         style = 3, width = 10*cv_N, char= '=')
     
     # For the cross val index
     for(cv_i in 1:cv_N){
@@ -364,9 +367,6 @@ cv_boot_gray_gandf <- function(d_form, cv_N = 10, bs_N = 100,
         d_form_test <- d_form %>% group_by(Ls, Lt1, Lt2) %>% 
             slice_sample(n = test_size_per_triad) 
         d_form_train <- anti_join(d_form, d_form_test, by = c("trial", "Ls", "Lt1", "Lt2", "R", "d1", "d2"))
-
-        pb <- txtProgressBar(min = 0, max = 10*cv_N,
-                         style = 3, width = 10*cv_N, char= '=')
         
         # Bootstrap a training set from the full training set
         for(bs_i in 1:bs_N){
